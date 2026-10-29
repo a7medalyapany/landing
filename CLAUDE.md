@@ -37,6 +37,9 @@ Record significant choices as ADRs in `docs/decisions/`.
 
 - Every collection/global declares access control. Public reads return published docs only.
 - Local API calls made on behalf of a user pass `user` and `overrideAccess: false`.
+- Server Components by default. `'use client'` only for state, event handlers, effects,
+  or browser APIs — as small leaf components, never on pages or layouts. Details: the
+  `nextjs-frontend` skill.
 - Editor-managed content (copy, images, links, SEO) comes from Payload, never hardcoded.
 - Use logical CSS properties (`ps-`/`pe-`, `ms-`/`me-`, `start`/`end`), never hard
   `left`/`right` — the template must stay RTL-ready.

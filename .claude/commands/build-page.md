@@ -12,6 +12,7 @@ Follow this loop strictly. Do not skip phases. Stop at each STOP gate and wait f
 
 - Read CLAUDE.md, docs/architecture.md, docs/execution-roadmap.md, and any relevant
   ADRs in docs/decisions/. Dispatch the `researcher` subagent for unfamiliar areas.
+- Read the nextjs-frontend skill — it governs every component you write in this run.
 - Check whether Payload `localization` is configured in `src/payload.config.ts`. If it
   is, read the rtl-bilingual-component skill — every later phase must honor it.
 - If a design reference was given, pull it with the tool you actually have (Figma MCP
@@ -39,7 +40,9 @@ run), check it out instead of recreating it. Confirm the branch name back to me.
 
 ## Phase 3 — Implement
 
-- Build the page as Server Components reading from Payload via the Local API.
+- Build the page as Server Components reading from Payload via the Local API
+  (`overrideAccess: false` for public reads). `'use client'` only for small interactive
+  leaves, per the nextjs-frontend skill — never on the page or layout itself.
 - Editor-managed content (copy, images, links, SEO) comes from Payload — never hardcoded.
 - Logical CSS properties only (ps/pe, ms/me, start/end). No hard left/right.
 - If localized: wire every locale per the rtl-bilingual-component skill.

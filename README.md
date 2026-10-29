@@ -128,10 +128,10 @@ explanation is in [`docs/ai-workflow.md`](docs/ai-workflow.md). Summary:
 |---|---|---|
 | Project rules | `CLAUDE.md` | Stack, commands, code boundaries and must-follow rules. Keep it short. |
 | Permissions | `.claude/settings.json` | Tests, lint and typecheck run without prompts; `git push`, migrations and deploys ask first; `.env` and `rm -rf` are blocked |
-| Hooks | `.claude/hooks/` | Block edits to generated files and `.env`; run typecheck after every TS edit |
+| Hooks | `.claude/hooks/` | Block edits to generated files and `.env`; after every TS edit, run typecheck and flag `'use client'` on pages/layouts |
 | Agents | `.claude/agents/` | `researcher` (read-only explorer) and `governance-reviewer` (reviews work it didn't write: PASS/FLAG/BLOCK) |
 | Command | `/build-page <name> [design-ref]` | Builds one page end to end, with approval stops after the plan and after the review |
-| Skills | `.claude/skills/` | `payload` (CMS reference), `verify-frontend-change` (real-browser checks), `rtl-bilingual-component` (RTL and localization rules) |
+| Skills | `.claude/skills/` | `payload` (CMS reference), `nextjs-frontend` (Server Components first, `'use client'` only when needed), `verify-frontend-change` (real-browser checks), `rtl-bilingual-component` (RTL and localization rules) |
 | MCP | `.mcp.json` | `context7` (current docs), `playwright` (browser), `github` |
 
 **One-time setup for MCP:** the `github` server needs a token in your shell (not in `.env`):

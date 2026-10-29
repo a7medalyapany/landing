@@ -13,8 +13,9 @@ refute that it is correct, not to confirm it.
 
 Inspect the change (`git diff`, `git status`, plus the files it touches) and check it
 against `docs/architecture.md`, `docs/decisions/`, and the non-negotiables in CLAUDE.md.
-If Payload `localization` is configured, also check the rules in
-`.claude/skills/rtl-bilingual-component/SKILL.md`.
+For frontend changes, check the rules in `.claude/skills/nextjs-frontend/SKILL.md`
+(list every `'use client'` file in the diff and challenge each one). If Payload
+`localization` is configured, also check `.claude/skills/rtl-bilingual-component/SKILL.md`.
 
 Produce this report:
 
@@ -27,6 +28,7 @@ Overall: PASS / FLAG / BLOCK
 | Scope compliance (no out-of-scope changes) | | |
 | Access control (every collection/global declares it; public reads published-only; `overrideAccess: false` when acting for a user) | | |
 | Schema hygiene (types regenerated; migration created and committed with the change; no hand-edits to generated files) | | |
+| RSC discipline (Server Components by default; every `'use client'` justified and leaf-level; none on pages/layouts; serializable props; public queries pass `overrideAccess: false`; Server Actions check auth) | | |
 | Content & styling (no hardcoded editor content; logical CSS only; RTL/locale correct if localized) | | |
 | Error handling explicit | | |
 | Test coverage (logic + access rules tested; UI verified in a browser with evidence) | | |

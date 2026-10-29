@@ -24,6 +24,9 @@ The `nextjs-agent-rules` block is written by `next dev` — leave it in place.
 ### Skills (`.claude/skills/*/SKILL.md`) — just-in-time playbooks
 Loaded only when their description matches the task, so they cost nothing until needed:
 - `payload` — Payload CMS reference (fields, hooks, access control, queries).
+- `nextjs-frontend` — Server Components by default, `'use client'` only for small
+  interactive leaves, safe Payload reads (`overrideAccess: false`), Server Actions,
+  and Next 16's caching/revalidation APIs (checked against the installed docs).
 - `verify-frontend-change` — end-to-end browser verification of any UI change, with
   evidence, using whatever browser tool the session has.
 - `rtl-bilingual-component` — logical CSS, mirroring rules, Payload field
@@ -47,7 +50,8 @@ it so it's enforced at build time, not rediscovered.
   (`payload-types.ts`, `src/app/(payload)/*` except `custom.scss`) and `.env` secrets
   (`.env.example` is allowed). System-side enforcement beats hoping the prompt holds.
 - `post-edit-checks.sh` (PostToolUse) — runs `pnpm typecheck` after a `.ts/.tsx` edit
-  in `src/` or `tests/` and feeds errors back so Claude self-corrects.
+  in `src/` or `tests/`, flags `'use client'` on pages/layouts, and feeds both back so
+  Claude self-corrects.
 - Both need `jq`. Without it the hooks print a warning and skip.
 
 ### Permissions (`.claude/settings.json`) — deny-first
