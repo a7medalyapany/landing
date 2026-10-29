@@ -17,7 +17,9 @@ Record significant choices as ADRs in `docs/decisions/`.
 
 - `docker compose up -d postgres` — local Postgres on :5432 (`docker compose down -v` wipes it)
 - `pnpm dev` — local dev (admin at /admin)
-- `pnpm test` — integration (Vitest) + e2e (Playwright); `pnpm test:int` / `pnpm test:e2e` separately
+- `pnpm test` — integration (Vitest) + e2e (Playwright); `pnpm test:int` / `pnpm test:e2e` separately.
+  Tests run only against `TEST_DATABASE_URL` (never `DATABASE_URL`); e2e starts its own
+  server on :3001, so `pnpm dev` must be stopped first.
 - `pnpm typecheck` — tsc --noEmit
 - `pnpm lint` — ESLint (flat config, `eslint-config-next`)
 - `pnpm generate:types` / `pnpm generate:importmap` — after schema / admin component changes

@@ -37,9 +37,6 @@ a clean history. Don't clone this repo to build on it directly.
   gh repo create my-site --private --template a7medalyapany/landing --clone
   ```
 
-> The template is private. If you can't see the button or the CLI says "not found",
-> ask the owner to add you as a collaborator.
-
 Then, inside your new project:
 
 ```bash
@@ -76,6 +73,20 @@ automatically.
 - **Port 5432 already taken?** Change the left side of `'5432:5432'` in
   `docker-compose.yml` (e.g. `'5433:5432'`) and use the same port in `DATABASE_URL`.
 - **Reset the local database:** `docker compose down -v` deletes the data volume.
+
+## Tests
+
+Tests **never** use your dev database. They run against `TEST_DATABASE_URL` and refuse to
+start if it's missing or the same as `DATABASE_URL`. That way a test run can't wipe dev
+data, or create its test admin user in production.
+
+- `docker compose` creates the `landing_test` database automatically the **first** time the
+  volume is created. If your volume already existed, create it once with:
+  `docker compose exec postgres createdb -U postgres landing_test`
+- With hosted Postgres, create a second database (or a Neon branch) and use that.
+- e2e needs a browser, installed once: `pnpm exec playwright install chromium`.
+- `pnpm test:e2e` starts its own dev server on **:3001**, pointed at the test database.
+  Next.js allows only one dev server per folder, so **stop `pnpm dev` first**.
 
 ## Scripts
 
@@ -148,7 +159,8 @@ For one-line fixes, skip the ceremony and just ask.
 ## Making it your own
 
 1. Rename the project in `package.json` (`name`, `description`) and the database name in
-   `docker-compose.yml` / `.env` if you like (`landing` → your project).
+   `docker-compose.yml`, `docker/postgres/init/01-test-database.sql` and `.env` if you
+   like (`landing` → your project).
 2. Fill in [`docs/architecture.md`](docs/architecture.md) (overview, data model, access
    rules) and adjust the roadmap. The agents read these, so the better they are, the
    better Claude's output.
@@ -171,3 +183,7 @@ For one-line fixes, skip the ceremony and just ask.
 - Payload docs: https://payloadcms.com/docs
 - Next.js docs for the installed version: `node_modules/next/dist/docs/`
 - Claude Code docs: https://docs.claude.com/en/docs/claude-code
+
+## License
+
+[MIT](LICENSE)
