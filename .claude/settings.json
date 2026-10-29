@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm dev:*)", "Bash(pnpm test:*)", "Bash(pnpm test)", "Bash(pnpm typecheck)",
+      "Bash(pnpm lint)", "Bash(pnpm lint:*)", "Bash(pnpm generate:types)",
+      "Bash(pnpm generate:importmap)", "Bash(pnpm payload migrate:create:*)",
+      "Bash(pnpm payload migrate:status)",
+      "Bash(git status)", "Bash(git diff:*)", "Bash(git log:*)", "Bash(git add:*)",
+      "Read", "Glob", "Grep"
+    ],
+    "ask": [
+      "Bash(git push:*)", "Bash(pnpm payload migrate)", "Bash(pnpm payload migrate:*)",
+      "Bash(vercel:*)", "Bash(docker compose down:*)"
+    ],
+    "deny": [
+      "Read(./.env)", "Read(./.env.local)", "Read(./.env.production)", "Read(./.env.*.local)",
+      "Read(./**/secrets/**)",
+      "Bash(cat .env)", "Bash(cat .env.local)", "Bash(cat .env.production)",
+      "Bash(rm -rf:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      { "matcher": "Write|Edit",
+        "hooks": [ { "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-protected-writes.sh" } ] }
+    ],
+    "PostToolUse": [
+      { "matcher": "Write|Edit",
+        "hooks": [ { "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/post-edit-checks.sh" } ] }
+    ]
+  }
+}
