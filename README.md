@@ -25,8 +25,25 @@ Claude Code**. You get two things:
 
 ## Quick start
 
+This is a GitHub **template repository**: each new project starts as its own repo with
+a clean history. Don't clone this repo to build on it directly.
+
+**Create your project**, either way:
+
+- On GitHub, click **Use this template** → **Create a new repository**, then clone your new repo.
+- Or with the GitHub CLI (creates, then clones into `./my-site`):
+
+  ```bash
+  gh repo create my-site --private --template a7medalyapany/landing --clone
+  ```
+
+> The template is private. If you can't see the button or the CLI says "not found",
+> ask the owner to add you as a collaborator.
+
+Then, inside your new project:
+
 ```bash
-git clone <this-repo> my-site && cd my-site
+cd my-site
 pnpm install
 cp .env.example .env          # then edit the values
 ```
@@ -130,7 +147,8 @@ For one-line fixes, skip the ceremony and just ask.
 
 ## Making it your own
 
-1. Rename the project in `package.json`.
+1. Rename the project in `package.json` (`name`, `description`) and the database name in
+   `docker-compose.yml` / `.env` if you like (`landing` → your project).
 2. Fill in [`docs/architecture.md`](docs/architecture.md) (overview, data model, access
    rules) and adjust the roadmap. The agents read these, so the better they are, the
    better Claude's output.
